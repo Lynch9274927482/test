@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Coords Conversion</title>
+  <style>
+    /* CSS code for styling */
+    @keyframes fade-in {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    @keyframes slide-up {
+      0% { transform: translateY(20px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    body {
+      background-color: #141414;
+      color: #fff;
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      animation: fade-in 1s ease-in-out;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 36px;
+      text-align: center;
+      margin-bottom: 30px;
+      animation: slide-up 1s ease-in-out;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 20px;
+      animation: slide-up 1s ease-in-out;
+    }
+
+    input[type="number"] {
+      background-color: #313131;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 10px;
+      margin-bottom: 10px;
+      animation: slide-up 1s ease-in-out;
+    }
+
+    button {
+      background-color: #009688;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 10px;
+      cursor: pointer;
+      animation: slide-up 1s ease-in-out;
+    }
+
+    button:hover {
+      background-color: #00847a;
+    }
+
+    button.switch {
+      background-color: #990000;
+    }
+
+    button.switch.active {
+      background-color: #006600;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 16px;
+      animation: slide-up 1s ease-in-out;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Minecraft Calculator</h1>
+    
+    <form id="conversion-form">
+      <input type="number" id="x-input" placeholder="X coordinate" required>
+      <input type="number" id="y-input" placeholder="Y coordinate" required>
+      <input type="number" id="z-input" placeholder="Z coordinate" required>
+      <button type="submit">Calculate</button>
+    </form>
+
+    <button class="switch">Switch</button>
+
+    <div id="result" class="result"></div>
+  </div>
+
+  <script>
+    // JavaScript code for conversion calculations
+    const form = document.getElementById('conversion-form');
+    const xInput = document.getElementById('x-input');
+    const yInput = document.getElementById('y-input');
+    const zInput = document.getElementById('z-input');
+    const resultDiv = document.getElementById('result');
+    const switchButton = document.querySelector('.switch');
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+      convertCoordinates();
+    });
+
+    switchButton.addEventListener('click', function() {
+      switchButton.classList.toggle('active');
+      convertCoordinates();
+    });
+
+    function convertCoordinates() {
+      const x = parseInt(xInput.value);
+      const y = parseInt(yInput.value);
+      const z = parseInt(zInput.value);
+      const isNetherToOverworld = switchButton.classList.contains('active');
+
+      let convertedX, convertedY, convertedZ;
+
+      if (isNetherToOverworld) {
+        convertedX = x * 8;
+        convertedY = y;
+        convertedZ = z * 8;
+      } else {
+        convertedX = Math.floor(x / 8);
+        convertedY = y;
+        convertedZ = Math.floor(z / 8);
+      }
+
+      const conversionResult = isNetherToOverworld ? 'Overworld Coords' : 'Nether Coords';
+      const resultText = `${conversionResult} :<br>X: ${convertedX}, Y: ${convertedY}, Z: ${convertedZ}`;
+      resultDiv.innerHTML = resultText;
+    }
+  </script>
+</body>
+</html>
